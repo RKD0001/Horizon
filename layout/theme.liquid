@@ -1,0 +1,626 @@
+<!doctype html>
+<html
+  class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}"
+  lang="{{ request.locale.iso_code }}"
+  dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}"
+>
+  <head>
+    {%- render 'stylesheets' -%}
+
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
+    <link
+      rel="expect"
+      href="#MainContent"
+      blocking="render"
+      id="view-transition-render-blocker"
+    >
+
+    {%- render 'meta-tags' -%}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-schemes' -%}
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    >
+    {{ content_for_header }}
+
+    <script src="https://cdn.judge.me/widget.js"></script>
+  </head>
+  
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} {% if request.locale.iso_code == 'ar' %}lang-ar{% endif %}">
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+    <div id="header-group">
+      {% sections 'header-group' %}
+    </div>
+
+    <main
+      id="MainContent"
+      class="content-for-layout"
+      role="main"
+      data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+      data-product-transition="{{ settings.transition_to_main_product }}"
+      data-template="{{ template }}"
+    >
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% render 'search-modal' %}
+
+    {% # theme-check-disable ParserBlockingScript %}
+    <script src="{{ 'critical.js' | asset_url }}"></script>
+    {% # theme-check-enable ParserBlockingScript %}
+
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+
+    {% comment %} Quick View Modal {% endcomment %}
+
+    <div id="customQuickViewModal" class="custom-quick-view-modal">
+      <div class="custom-modal-overlay" onclick="closeCustomQuickView()"></div>
+      <div class="custom-modal-content" id="customQuickViewContent">
+        <button class="custom-modal-close" onclick="closeCustomQuickView()">×</button>
+      </div>
+    </div>
+
+    <style>
+              .custom-quick-view-modal {
+                      display: none;
+                      position: fixed;
+                      inset: 0;
+                      z-index: 1000;
+                    }
+              .custom-quick-view-modal.open {
+                      display: block;
+                    }
+              .custom-modal-overlay {
+                      position: absolute;
+                      inset: 0;
+                      background: rgba(0, 0, 0, 0.5);
+                    }
+              .custom-modal-content {
+                  position: relative;
+                  max-width: 1000px;
+                  width: 95%;
+                  margin: 150px auto;
+                  background: white;
+                  overflow: hidden;
+                  z-index: 10;
+                  display: flex;
+                  flex-direction: column;
+                    }
+                    .custom-modal-close {
+                      position: absolute;
+                      top: 12px;
+                      right: 16px;
+                      font-size: 24px;
+                      background: none;
+                      border: none;
+                      cursor: pointer;
+                    }
+                    .custom-product-image {
+                      width: 100%;
+                    }
+                    .custom-variant-option {
+                      margin-bottom: 1rem;
+                    }
+              button.custom-btn.custom-quick-add-button{
+                padding: 10px 25px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans';
+              }
+
+            .swatch-group {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+      }
+
+      .swatch-item {
+        padding: 8px 14px;
+        border: 1px solid #999;
+        border-radius: 4px;
+        cursor: pointer;
+        user-select: none;
+        font-size: 18px;
+        transition: 0.2s ease;
+      }
+
+      .swatch-item.color span {
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+      }
+
+      .swatch-item.active {
+        border-color: black;
+        font-weight: bold;
+      }
+
+      .rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Example: Flip sliders or arrows if needed */
+.rtl .slideshow-controls__arrows {
+  flex-direction: row-reverse;
+}
+
+    </style>
+
+    <script>
+      let customQuickViewHandle = '';
+
+      let selectedOptions = [];
+
+      function openCustomQuickView(handle) {
+        customQuickViewHandle = handle;
+        const modal = document.getElementById('customQuickViewModal');
+        const content = document.getElementById('customQuickViewContent');
+        modal.classList.add('open');
+        content.innerHTML = `
+      <button class="custom-modal-close" onclick="closeCustomQuickView()">×</button>`;
+
+        fetch(`/products/${handle}.js`)
+          .then((res) => res.json())
+          .then((product) => {
+            selectedOptions = product.variants[0].options;
+
+            const variantSelectors = product.options
+              .map((option, i) => {
+                const values = product.variants
+                  .map((v) => v.options[i])
+                  .filter((v, idx, arr) => arr.indexOf(v) === idx);
+
+                const isColor = option.name.toLowerCase().includes('color');
+
+                const swatches = values
+                  .map(
+                    (val) => `
+    <div class="swatch-item ${isColor ? 'color' : 'text'}" 
+         data-option-index="${i}" 
+         data-option-value="${val}" 
+         onclick="selectSwatch(this)">
+      ${isColor ? `<span style="background-color:${val}"></span>` : val}
+    </div>`
+                  )
+                  .join('');
+
+                return `
+    <div class="custom-variant-option">
+      <label style=" font-size: 18px; font-weight: 900; ">${option.name}</label>
+      <div class="swatch-group">${swatches}</div>
+    </div>`;
+              })
+              .join('');
+
+            const firstVariantId = product.variants[0].id;
+
+            content.innerHTML = `
+          <button class="custom-modal-close" onclick="closeCustomQuickView()">×</button>
+          <div class="quick-view-body">
+            <div class="quick-view-image">
+              <img src="${product.images[0]}" alt="${product.title}" class="custom-product-image" />
+            </div>
+            <div class="quick-view-details">
+              <h2>${product.title}</h2>
+              <p>$${(product.price / 100).toFixed(2)}</p>
+              <hr style="width: 100%; opacity: 15%;">
+              <div style=" margin-top: 20px; ">${variantSelectors}</div>
+              <div class="quick-view-actions">
+                <div class="quantity-wrapper">
+                  <button onclick="updatevalue(-1)">-</button>
+                  <input type="number" id="quickvalue" value="1" min="1">
+                  <button onclick="updatevalue(1)">+</button>
+                </div>
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" id="customQuickViewVariantId" value="${firstVariantId}">
+                  <input type="hidden" name="quantity" id="customQuickViewQuantity" value="1">
+                  <button type="submit" class="custom-btn custom-quick-add-button">ADD TO CART</button>
+                </form>
+              </div>
+            </div>
+          </div>`;
+          });
+      }
+
+      function closeCustomQuickView() {
+        document.getElementById('customQuickViewModal').classList.remove('open');
+      }
+
+      function customUpdateVariant(event) {
+        const selects = document.querySelectorAll('.custom-variant-option select');
+        const selected = Array.from(selects).map((sel) => sel.value);
+
+        fetch(`/products/${customQuickViewHandle}.js`)
+          .then((res) => res.json())
+          .then((product) => {
+            const matched = product.variants.find((v) => v.options.every((opt, i) => opt === selected[i]));
+            if (matched) {
+              document.getElementById('customQuickViewVariantId').value = matched.id;
+            }
+          });
+      }
+
+      function selectSwatch(el) {
+        const i = el.dataset.optionIndex;
+        const val = el.dataset.optionValue;
+
+        // Remove active from all swatches of this option
+        document
+          .querySelectorAll(`.swatch-item[data-option-index="${i}"]`)
+          .forEach((item) => item.classList.remove('active'));
+
+        // Add active class to selected
+        el.classList.add('active');
+
+        // Update selected option and variant
+        selectedOptions[i] = val;
+        updateSelectedVariant();
+      }
+
+      function updateSelectedVariant() {
+        fetch(`/products/${customQuickViewHandle}.js`)
+          .then((res) => res.json())
+          .then((product) => {
+            const matched = product.variants.find((v) => v.options.every((opt, i) => opt === selectedOptions[i]));
+            if (matched) {
+              document.getElementById('customQuickViewVariantId').value = matched.id;
+            }
+          });
+      }
+
+      function updatevalue(val) {
+        const qtyInput = document.getElementById('quickvalue');
+        const hiddenQtyInput = document.getElementById('customQuickViewQuantity');
+
+        let currentVal = parseInt(qtyInput.value, 10);
+        currentVal = isNaN(currentVal) ? 1 : currentVal + val;
+        currentVal = Math.max(currentVal, 1);
+
+        qtyInput.value = currentVal;
+        hiddenQtyInput.value = currentVal;
+      }
+    </script>
+
+    <script>
+      document.addEventListener('input', function (e) {
+        if (e.target && e.target.id === 'quickvalue') {
+          const val = Math.max(parseInt(e.target.value, 10) || 1, 1);
+          document.getElementById('customQuickViewQuantity').value = val;
+        }
+      });
+    </script>
+
+    <div id="store-info-popup" class="store-info-popup-overlay" style="display: none;">
+      <div class="store-info-popup">
+        <button class="close-popup" onclick="closePopup()">×</button>
+        <div class="popup-content">
+          <div class="popup-header">
+            <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title }}">
+            <div>
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.price | money }}</p>
+            </div>
+          </div>
+          <div class="popup-body">
+            <h4>Akaze store</h4>
+            <p><span class="check-icon">✔</span> Pickup available, Usually ready in 24 hours</p>
+            <p>📍 548 North Blackstone Avenue, Fresno CA 93701, United States</p>
+            <p>📞 +10123555444</p>
+            <p>🔗 <a href="https://www.google.com/maps" target="_blank">Check this on google map</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+        .store-info-popup-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      .store-info-popup {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      .popup-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .popup-header img {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+      }
+
+      .popup-body h4 {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .popup-body p {
+        margin: 5px 0;
+      }
+
+      .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var storeBtn = document.getElementById('view-store-btn');
+        var popup = document.getElementById('store-info-popup');
+
+        if (storeBtn && popup) {
+          storeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            popup.style.display = 'flex';
+          });
+        }
+      });
+
+      function closePopup() {
+        document.getElementById('store-info-popup').style.display = 'none';
+      }
+    </script>
+    <script>
+      function toggleSearchBar() {
+        const bar = document.querySelector('.custom-search-bar');
+        bar.style.display = bar.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('liveSearchInput').focus();
+        document.getElementById('liveSearchResults').innerHTML = '';
+      }
+
+      async function liveSearch(query) {
+        const resultsContainer = document.getElementById('liveSearchResults');
+        resultsContainer.innerHTML = '';
+
+        if (!query) return;
+
+        try {
+          const response = await fetch(
+            `/search/suggest.json?q=${encodeURIComponent(
+              query
+            )}&resources[type]=product&resources[limit]=5&section_id=predictive-search`
+          );
+          const data = await response.json();
+          const products = data.resources.results.products;
+
+          if (products.length === 0) {
+            resultsContainer.innerHTML = '<p>No results found</p>';
+            return;
+          }
+
+          products.forEach((product) => {
+            const div = document.createElement('div');
+            div.classList.add('live-result-item');
+
+            div.innerHTML = `
+          <img src="${product.image}" alt="${product.title}" />
+          <a href="${product.url}">${product.title}</a>
+        `;
+
+            resultsContainer.appendChild(div);
+          });
+        } catch (error) {
+          resultsContainer.innerHTML = '<p>Error fetching results</p>';
+        }
+      }
+    </script>
+
+    {% comment %} Compare Button Modal {% endcomment %}
+
+    <div id="compareModal" class="compare-modal">
+      <div class="compare-overlay" onclick="closeCompareModal()"></div>
+      <div class="compare-content">
+        <button class="compare-close" onclick="closeCompareModal()">×</button>
+        <h2 style="font-size: 42px;font-family: 'Plus Jakarta Sans';">Compare Products</h2>
+        <div id="compareProductsWrapper" class="compare-items"></div>
+        <div class="compare-actions">
+          <button
+            onclick="clearCompare()"
+            style=" font-size: 18px; font-family: 'Plus Jakarta Sans'; background: black; color: white; border: none; padding: 6px 10px; "
+          >
+            Remove All
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .compare-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+      }
+      .compare-modal.open {
+        display: block;
+      }
+      .compare-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+      }
+      .compare-content {
+        position: relative;
+        background: white;
+        max-width: 1000px;
+        margin: 150px auto;
+        padding: 30px;
+        z-index: 10;
+      }
+      .compare-close {
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        background: none;
+        font-size: 24px;
+        border: none;
+        cursor: pointer;
+      }
+      .compare-items {
+        display: flex;
+        gap: 50px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .compare-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 21%;
+        position: relative;
+      }
+      .compare-item img {
+        width: 100%;
+        max-height: 210px;
+      }
+      .compare-remove {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        background: black;
+        font-size : 14px;
+        color: white;
+        border: none;
+        padding: 3px 6px;
+        cursor: pointer;
+      }
+      .compare-actions {
+        margin-top: 20px;
+        text-align: center;
+      }
+      
+    </style>
+
+    <script>
+      function addToCompare(handle) {
+        fetch(`/products/${handle}.js`)
+          .then((res) => res.json())
+          .then((product) => {
+            let stored = JSON.parse(localStorage.getItem('compareList')) || [];
+
+            if (stored.find((p) => p.id === product.id)) return;
+
+            if (stored.length >= 4) {
+              alert('You can compare up to 4 products.');
+              return;
+            }
+
+            stored.push({
+              id: product.id,
+              title: product.title,
+              image: product.images[0],
+              price: (product.price / 100).toFixed(2),
+              handle: product.handle,
+            });
+
+            localStorage.setItem('compareList', JSON.stringify(stored));
+            openCompareModal(); // Use openCompareModal
+            updateCompareCounter();
+          });
+      }
+
+      function openCompareModal() {
+        const modal = document.getElementById('compareModal');
+        const wrapper = document.getElementById('compareProductsWrapper');
+        const stored = JSON.parse(localStorage.getItem('compareList')) || [];
+
+        wrapper.innerHTML = stored
+          .map(
+            (p) => `
+      <div class="compare-item">
+        <button class="compare-remove" onclick="removeFromCompare(${p.id})">×</button>
+        <img src="${p.image}" alt="${p.title}">
+        <h4 style="font-size: 18px;">${p.title}</h4>
+        <p style="font-size: 16px;">$${p.price}</p>
+        <a href="/products/${p.handle}" target="_blank">View Product</a>
+      </div>
+    `
+          )
+          .join('');
+
+        modal.classList.add('open');
+      }
+
+      function closeCompareModal() {
+        document.getElementById('compareModal').classList.remove('open');
+      }
+
+      function removeFromCompare(id) {
+        let stored = JSON.parse(localStorage.getItem('compareList')) || [];
+        stored = stored.filter((p) => p.id !== id);
+        localStorage.setItem('compareList', JSON.stringify(stored));
+        openCompareModal();
+        updateCompareCounter();
+      }
+
+      function clearCompare() {
+        localStorage.removeItem('compareList');
+        openCompareModal();
+        updateCompareCounter();
+      }
+
+      function updateCompareCounter() {
+        let compareItems = JSON.parse(localStorage.getItem('compareList') || '[]');
+        const counter = document.getElementById('compareCounter');
+
+        if (compareItems.length > 0) {
+          counter.style.display = 'inline-block';
+          counter.textContent = compareItems.length;
+        } else {
+          counter.style.display = 'none';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateCompareCounter);
+    </script>
+  </body>
+</html>

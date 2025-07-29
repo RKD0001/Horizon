@@ -1,0 +1,697 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "contact_hero_banner_ATwJt9": {
+      "type": "contact-hero-banner",
+      "disabled": true,
+      "name": "Contact Hero Banner",
+      "settings": {
+        "background_image": "shopify://shop_images/banner-23_e60bc2c0-b071-4d45-9b24-a0ce4fcc71b6.png",
+        "heading": "Got Questions?",
+        "subheading": "We're here to help with orders, designs, shipping & more."
+      }
+    },
+    "hero_M4BnQi": {
+      "type": "hero",
+      "blocks": {
+        "text_E8RJik": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Got Questions?</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_dABgAE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We're here to help with orders, designs, shipping & more.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_E8RJik",
+        "text_dABgAE"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "link": "",
+        "open_in_new_tab": false,
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/banner-23_e60bc2c0-b071-4d45-9b24-a0ce4fcc71b6.png",
+        "media_type_2": "image",
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": true,
+        "reflection_opacity": 35,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "title": {
+          "type": "text",
+          "name": "t:names.title",
+          "settings": {
+            "text": "<h2>{{ closest.page.title }}</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "text",
+          "name": "t:names.content",
+          "settings": {
+            "text": "{{ closest.page.content }}",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "content"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "scheme-3",
+        "padding-block-start": 40,
+        "padding-block-end": 0
+      }
+    },
+    "form": {
+      "type": "section",
+      "blocks": {
+        "contact_form_UwiCkQ": {
+          "type": "contact-form",
+          "settings": {
+            "width": "custom",
+            "custom_width": 50,
+            "width_mobile": "custom",
+            "custom_width_mobile": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
+              "settings": {
+                "label": "Submit",
+                "style_class": "button",
+                "width": "custom",
+                "custom_width": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "group_CdzdeL": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "link": "",
+            "open_in_new_tab": false,
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "accordion_NNKy4J": {
+              "type": "accordion",
+              "name": "t:names.accordion",
+              "settings": {
+                "icon": "caret",
+                "dividers": true,
+                "type_preset": "h6",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "accordion_row_FjTArN": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "What if I ordered the wrong size?",
+                    "open_by_default": true,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_cNGxMJ": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Returns or exchanges for incorrect sizes are handled at your expense by placing a new order. It's recommended to consult the size chart before placing your order to ensure the correct fit.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_cNGxMJ"
+                  ]
+                },
+                "accordion_row_4ApfGn": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "How can I track my order?",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_wFWiFt": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Once your order has been shipped, a tracking number will be sent via email. You can use this number to track your order's progress through the shipping carrier's website.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_wFWiFt"
+                  ]
+                }
+              },
+              "block_order": [
+                "accordion_row_FjTArN",
+                "accordion_row_4ApfGn"
+              ]
+            },
+            "text_fbb3eh": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h3>Office</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_7hLxg4": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>150, Luna Road, <br/>Near Satelite road, Lenor</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_EgzQR3": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h3>Email Us</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_TGgqA8": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>support@darion.com</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_i3BdJM": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h3>Contact Us</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_FQPyxa": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>Phone : 682-351-7554</p><p>8:00AM to 5:00PM CST</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "accordion_NNKy4J",
+            "text_fbb3eh",
+            "text_7hLxg4",
+            "text_EgzQR3",
+            "text_TGgqA8",
+            "text_i3BdJM",
+            "text_FQPyxa"
+          ]
+        }
+      },
+      "block_order": [
+        "contact_form_UwiCkQ",
+        "group_CdzdeL"
+      ],
+      "name": "t:names.contact_form",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-3",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 32,
+        "padding-block-end": 84
+      }
+    },
+    "map_8WUfBW": {
+      "type": "map",
+      "name": "Contact Map",
+      "settings": {
+        "heading": "Visit Our Store",
+        "subheading": "Here’s where you can find us.",
+        "iframe_code": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4616.39939984574!2d72.82926507600133!3d21.182371882483398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f2b4932e02b%3A0x58dddcb625b1cf4!2sMeridian%20Tower!5e1!3m2!1sen!2sin!4v1752835908183!5m2!1sen!2sin\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+      }
+    },
+    "1753073387e57150b1": {
+      "type": "_blocks",
+      "blocks": {
+        "surecust_forms_lock_custom_form_TQHmq3": {
+          "type": "shopify://apps/surecust-forms-lock/blocks/custom-form/11b1d95b-f9a2-49ad-9a53-3d6a172a070d",
+          "settings": {
+            "formid": "",
+            "title": "Contact Form",
+            "subtitle": "Submit the application by filling in this form.",
+            "selectproduct": "handmade-pillow",
+            "fieldradius": 0,
+            "buttonback": "#000000",
+            "buttoncolor": "#ffffff"
+          }
+        },
+        "surecust_forms_lock_newsletter_form_BDbTMd": {
+          "type": "shopify://apps/surecust-forms-lock/blocks/newsletter-form/11b1d95b-f9a2-49ad-9a53-3d6a172a070d",
+          "settings": {
+            "title": "Subscribe to our newsletter!",
+            "subtitle": "",
+            "labels_show": false,
+            "email_label": "Email *",
+            "email_place": "Email *",
+            "emailreq": "Email is required",
+            "emailvalid": "Please enter valid email address",
+            "emailalready": "Email is already subscribed",
+            "button_label": "Subscribe",
+            "success": "Your submission has been sent.",
+            "fieldradius": 10,
+            "buttonback": "#000000",
+            "buttoncolor": "#ffffff"
+          }
+        },
+        "surecust_forms_lock_register_ckNYRy": {
+          "type": "shopify://apps/surecust-forms-lock/blocks/register/11b1d95b-f9a2-49ad-9a53-3d6a172a070d",
+          "settings": {
+            "title": "Create account",
+            "subtitle": "Complete your profile by filling in this form.",
+            "labels_show": true,
+            "first_name": "First Name",
+            "first_name_place": "First Name",
+            "firstnameerror": "First Name is required",
+            "first_name_required": false,
+            "last_name": "Last Name",
+            "last_name_place": "Last Name",
+            "lastnameerror": "Last Name is required",
+            "last_name_required": false,
+            "email_label": "Email *",
+            "email_place": "Email *",
+            "emailreq": "Email is required",
+            "emailvalid": "Please enter valid email address",
+            "emailalready": "Email is already registered",
+            "password_label": "Password *",
+            "password_place": "Password *",
+            "password": "Password field is required",
+            "button_label": "Create",
+            "singin_label": "Sign in",
+            "success": "Your application is successfully submitted, we will check and send you activation email soon.",
+            "fieldradius": 0,
+            "buttonback": "#000000",
+            "buttoncolor": "#ffffff"
+          }
+        },
+        "surecust_forms_lock_register_wholesale_YUHqJU": {
+          "type": "shopify://apps/surecust-forms-lock/blocks/register-wholesale/11b1d95b-f9a2-49ad-9a53-3d6a172a070d",
+          "settings": {
+            "title": "Create Wholesale account",
+            "subtitle": "Complete your profile by filling in this form.",
+            "labels_show": true,
+            "enable_password": true,
+            "enable_phone": true,
+            "enable_company": true,
+            "enable_tax": true,
+            "enable_website": true,
+            "enable_country_state": true,
+            "enable_address": true,
+            "enable_city": true,
+            "enable_zip": true,
+            "enable_note": true,
+            "button_label": "Submit Application",
+            "singin_label": "Sign in",
+            "singin_url": "",
+            "signin_disble": false,
+            "success": "Your application is successfully submitted, we will check your details and send you activation email soon. It can take few days",
+            "fieldradius": 0,
+            "buttonback": "#000000",
+            "buttoncolor": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "surecust_forms_lock_custom_form_TQHmq3",
+        "surecust_forms_lock_newsletter_form_BDbTMd",
+        "surecust_forms_lock_register_ckNYRy",
+        "surecust_forms_lock_register_wholesale_YUHqJU"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "image",
+        "video_position": "cover",
+        "background_image": "shopify://shop_images/GQNiJqWdTLokkthcumffjQ.png",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": true,
+        "overlay_color": "#e9dddd61",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "contact_hero_banner_ATwJt9",
+    "hero_M4BnQi",
+    "main",
+    "form",
+    "map_8WUfBW",
+    "1753073387e57150b1"
+  ]
+}

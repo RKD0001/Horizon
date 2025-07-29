@@ -1,0 +1,162 @@
+<div class="product-dynamic-tabs-section-wrapper section-{{ section.id }}">
+  <div class="page-width">
+    {% if section.settings.title %}
+      <h2 class="section-header text-center">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="product-tabs-wrapper">
+        <ul class="product-tabs-nav">
+          {% for block in section.blocks %}
+            <li class="tab-link {% if forloop.first %}current{% endif %}" data-tab="tab-{{ block.id }}">
+              {{ block.settings.tab_title | escape }}
+            </li>
+          {% endfor %}
+        </ul>
+
+        {% for block in section.blocks %}
+          <div id="tab-{{ block.id }}" class="tab-content {% if forloop.first %}current{% endif %}">
+            {% assign title_downcase = block.settings.tab_title | downcase %}
+            {% if title_downcase contains 'review' %}
+              <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
+                <!-- Judge.me app will load reviews here via JavaScript -->
+              </div>
+            {% elsif block.settings.tab_content != blank %}
+              {{ block.settings.tab_content }}
+            {% else %}
+              <p>No content configured for this tab.</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="placeholder-content text-center">
+        <p>Add tab blocks to this section in the theme editor.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .product-dynamic-tabs-section-wrapper {
+    margin: 40px auto;
+    max-width: 1470px;
+  }
+
+  .product-tabs-nav {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 45px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 41px;
+  }
+
+  .tab-link {
+    margin: 0 10px;
+    padding: 7px 15px;
+    cursor: pointer;
+    color: #8A8A8A;
+    font-weight: 600;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .tab-link:hover:not(.current) {
+    color: black;
+  }
+
+  .tab-link.current {
+    background-color: black;
+    color: white;
+    border-radius: 100px;
+  }
+
+  .tab-content {
+    display: none;
+    padding: 25px;
+    color: #8A8A8A;
+  }
+
+  .tab-content.current {
+    display: block;
+  }
+
+  .tab-content p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+  }
+
+  .tab-content ul {
+    list-style: disc;
+    margin-left: 20px;
+  }
+
+  .tab-content ul li {
+    margin-bottom: 5px;
+  }
+
+  .tab-content h3 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #333;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const wrapper = document.querySelector('.section-{{ section.id }} .product-tabs-wrapper');
+    if (!wrapper) return;
+
+    const links = wrapper.querySelectorAll('.tab-link');
+    const contents = wrapper.querySelectorAll('.tab-content');
+
+    links.forEach(link => {
+      link.addEventListener('click', function() {
+        const target = this.dataset.tab;
+        links.forEach(l => l.classList.remove('current'));
+        contents.forEach(c => c.classList.remove('current'));
+        this.classList.add('current');
+        document.getElementById(target).classList.add('current');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Tabbed Info",
+  "class": "section-dynamic-product-tabs",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "tab_item",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab Title",
+          "default": "New Tab"
+        },
+        {
+          "type": "richtext",
+          "label": "Tab Content",
+          "id": "tab_content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabbed Info",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,125 @@
+{% # import schema from '../schemas/blocks/accelerated-checkout.js' %}
+
+{%- doc -%}
+  This block is used to display the accelerated checkout button.
+  Intended for product-form.liquid block.
+
+  @param {string} can_add_to_cart - Whether the product can be added to the cart
+
+  @example
+  {% content_for 'block', type: 'accelerated-checkout', id: 'accelerated-checkout', can_add_to_cart: can_add_to_cart %}
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+%}
+
+<div
+  class="accelerated-checkout-block"
+  ref="acceleratedCheckoutButtonContainer"
+  {{ block.shopify_attributes }}
+  {% if request.visual_preview_mode %}
+    data-shopify-visual-preview
+  {% endif %}
+  {% unless can_add_to_cart %}
+    hidden
+  {% endunless %}
+>
+  {% if product != blank %}
+    {%- form 'product', product -%}
+      <div class="terms-and-buy-wrap">
+        <label class="terms-checkbox">
+          <input type="checkbox" id="agree_terms_checkbox">
+          I agree with the <a href="/policies/terms-of-service" target="_blank">terms and conditions</a>
+        </label>
+
+        <div id="custom_buy_button_wrapper">
+          {{ form | payment_button }}
+        </div>
+      </div>
+    {%- endform -%}
+  {% endif %}
+</div>
+
+{% stylesheet %}
+      .accelerated-checkout-block[data-shopify-visual-preview] {
+        width: 300px;
+      }
+
+      more-payment-options-link {
+        font-size: smaller;
+      }
+
+      more-payment-options-link a {
+        --button-color: var(--color-primary);
+      }
+
+      more-payment-options-link a:hover {
+        --button-color: var(--color-primary-hover);
+      }
+
+      .shopify-payment-button__more-options[aria-hidden='true'] {
+        display: none;
+      }
+
+      .terms-and-buy-wrap {
+      margin-top: 10px;
+    }
+
+    .terms-checkbox {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: #8A8A8A;
+    }
+
+    .terms-checkbox a{
+    text-decoration-color: #000000;
+      font-weight: 500;
+  }
+
+    .terms-checkbox input[type="checkbox"] {
+      accent-color: black;
+      cursor: pointer;
+    }
+
+    .shopify-payment-button__button {
+      pointer-events: none;
+      opacity: 0.5;
+      transition: 0.3s ease;
+    }
+
+    .shopify-payment-button__button.enabled {
+      pointer-events: auto;
+      opacity: 1;
+    }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.accelerated_checkout",
+  "tag": null
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('agree_terms_checkbox');
+    const buyButton = document.querySelector('.shopify-payment-button__button');
+
+    if (!checkbox || !buyButton) return;
+
+    checkbox.addEventListener('change', function () {
+      if (checkbox.checked) {
+        buyButton.classList.add('enabled');
+      } else {
+        buyButton.classList.remove('enabled');
+      }
+    });
+  });
+</script>

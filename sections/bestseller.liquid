@@ -1,0 +1,238 @@
+<style>
+  .bestseller-section {
+    padding: 60px 0;
+  }
+  .bestseller-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+  }
+  .bestseller-left {
+    flex: 1 1 45%;
+  }
+  .bestseller-left img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  .bestseller-right {
+    flex: 1 1 50%;
+  }
+  .bestseller-heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .bestseller-subheading {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  .bestseller-products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  .bestseller-product {
+    text-align: center;
+  }
+  .product-image img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .product-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #222;
+  }
+  .product-price {
+    font-weight: 600;
+    color: #000;
+  }
+
+  .hover-actions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .action-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  }
+
+  .wishlist-btn{
+    position: absolute;
+    bottom: 100px;
+    right: 5px;
+  }
+
+  .compare-btn{
+    position: absolute;
+    bottom: 55px;
+    right: 5px;
+  }
+
+  .view-product-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .bestseller-product:hover .hover-actions {
+    opacity: 1;
+  }
+
+  .bestseller-product:hover .view-product-btn {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  .action-icon:hover {
+    color: white;
+  }
+
+  #wishlist-btn:hover {
+    background-color: black;
+  }
+
+  #compare-btn:hover {
+    background-color: black;
+  }
+
+  @media (max-width: 768px) {
+    .bestseller-inner {
+      flex-direction: column;
+    }
+    .bestseller-products {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="bestseller-section page-width">
+  <div class="bestseller-inner">
+    <div class="bestseller-left">
+      {% if section.settings.left_image %}
+        <img src="{{ section.settings.left_image | image_url: width: 800 }}" alt="Bestseller Image" loading="lazy">
+      {% endif %}
+    </div>
+    <div class="bestseller-right">
+      {% if section.settings.heading %}
+        <h2 class="bestseller-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.subheading %}
+        <p class="bestseller-subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      <div class="bestseller-products">
+        {% for block in section.blocks %}
+          {% assign product = block.settings.product %}
+          {% if product %}
+            <div class="bestseller-product">
+              <a href="{{ product.url }}" class="product-link">
+                <div class="product-image">
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+                  <div class="hover-actions">
+                    <button class="action-icon wishlist-btn" id="wishlist-btn" title="Add to Wishlist">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c0 0 0 0 -0.76 -1c-0.88 -1.16 -2.18 -2 -3.74 -2c-2.49 0 -4.5 2.01 -4.5 4.5c0 0.93 0.28 1.79 0.76 2.5c0.81 1.21 8.24 9 8.24 9M12 8c0 0 0 0 0.76 -1c0.88 -1.16 2.18 -2 3.74 -2c2.49 0 4.5 2.01 4.5 4.5c0 0.93 -0.28 1.79 -0.76 2.5c-0.81 1.21 -8.24 9 -8.24 9"/>
+                      </svg>
+                    </button>
+                    <button class="action-icon compare-btn" id="compare-btn" title="Add to Compare">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 2048 2048">
+                        <path fill="currentColor" d="M1817 1152h103v128h-22q-20 57-56 104t-85 81t-104 52t-117 19q-60 0-117-18t-105-52t-84-81t-56-105h-22v-128h103l187-560l-418-139v1213q169 11 317 75t272 179h179v128H128v-128h179q123-114 272-178t317-76V410L502 279l163 489h103v128h-22q-20 57-56 104t-85 81t-104 52t-117 19q-60 0-117-18t-105-52t-84-81t-56-105H0V768h103l187-560l-262-87L69 0l827 275V0h128v318l867 288l-41 122l-197-66zM606 896H162q35 60 94 94t128 34t128-34t94-94m-76-128L384 330L238 768zm430 1024q-118 0-231 32t-213 96h888q-99-63-213-95t-231-33m576-1078l-146 438h292zm222 566h-444q35 60 94 94t128 34t128-34t94-94"/>
+                      </svg>
+                    </button>
+                    <a href="{{ product.url }}" class="view-product-btn"
+                      >Add To Cart
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512">
+                        <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M80 176a16 16 0 0 0-16 16v216c0 30.24 25.76 56 56 56h272c30.24 0 56-24.51 56-54.75V192a16 16 0 0 0-16-16Zm80 0v-32a96 96 0 0 1 96-96h0a96 96 0 0 1 96 96v32"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" data-auto-install="false">
+                    {{ product.metafields.judgeme.badge }}
+                  </div>
+                  <h3 class="product-title">{{ product.title }}</h3>
+                  <p class="product-price">{{ product.price | money }}</p>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bestseller",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Bestseller"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "Experience the best products at our store!"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left Side Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Bestseller Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

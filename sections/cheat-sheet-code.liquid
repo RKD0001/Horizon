@@ -1,0 +1,60 @@
+<!-- Example: collection.liquid -->
+
+{% assign my_collection = section.settings.collection %}
+
+<h3>{{ section.settings.collection.title }}</h3>
+
+{% comment %}
+  <ul class="product-list">
+    {% for product in section.settings.collection.products %}
+      <li class="{% cycle 'bg-light', 'bg-dark' %}">
+        {% if product.title == 'Cydney Plaid' %}
+          {% break %}
+        {% endif %}
+        <a href="{{ product.url }}">
+          {{ product.title }}
+        </a>
+      </li>
+    {% else %}
+      <li>No products found in this collection.</li>
+    {% endfor %}
+  </ul>
+{% endcomment %}
+
+{% paginate my_collection.products by 4 %}
+  <ul class="product-list">
+    {% for product in paginate.items %}
+      <li>
+        <a href="{{ product.url }}">
+          {{ product.title }}
+        </a>
+      </li>
+    {% else %}
+      <li>No products found in this collection.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Optional: Show pagination links -->
+  <div class="pagination">
+    {{ paginate | default_pagination }}
+  </div>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Section name",
+  "settings": [
+    {
+      "type": "collection",
+      "label": "Select Collection",
+      "id": "collection"
+    }
+  ],
+"presets": [
+  {
+    "name": "Cheat Sheet Code",
+    "category": "Custom"
+  }
+]
+}
+{% endschema %}

@@ -1,0 +1,124 @@
+{% schema %}
+{
+  "name": "Modern Collection Grid",
+  "tag": "section",
+  "class": "modern-collection-grid-section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Collection",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="page-width">
+  <div class="collection-grid-wrapper">
+    <div class="collection-grid">
+      {% for block in section.blocks %}
+        {% assign collection = block.settings.collection %}
+        {% if collection != blank %}
+          <div class="collection-card">
+            <a href="{{ collection.url }}">
+              <div class="image-wrapper">
+                <div class="collection-info">
+                  <h3>{{ collection.title }}</h3>
+                  <p>{{ block.settings.subtext }}</p>
+                </div>
+                <img
+                  src="{{ collection.featured_image | image_url: width: 600 }}"
+                  alt="{{ collection.title }}"
+                  loading="lazy"
+                >
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-width{
+    max-width:1768px;
+    margin: auto;
+  }
+
+  .collection-grid-wrapper {
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .collection-grid-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  .collection-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .collection-card {
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .collection-card a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+  }
+
+  .image-wrapper{
+    position: relative;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    object-fit: cover;
+  }
+
+  .collection-info {
+    position: absolute;
+    left: 5%;
+  }
+
+  .collection-info h3 {
+    margin-top: 14px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .collection-info p {
+    color: #8A8A8A;
+    font-size: 14px;
+  }
+</style>

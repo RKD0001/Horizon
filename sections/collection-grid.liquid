@@ -1,0 +1,95 @@
+{% schema %}
+{
+  "name": "Collection Grid",
+  "tag": "section",
+  "class": "full-width-collection-grid",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "collection_tile",
+      "name": "Collection Tile",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Choose Collection"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Explore Now"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Full Width Collection Grid",
+      "category": "Custom",
+      "blocks": [
+        { "type": "collection_tile" },
+        { "type": "collection_tile" },
+        { "type": "collection_tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  .sany {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tile {
+    position: relative;
+    flex: 1 0 33.3333%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  .full-width-collection-sany .tile:hover {
+    transform: scale(1.02);
+  }
+
+  .full-width-collection-sany .overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+
+  .full-width-collection-sany h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .full-width-collection-sany .subtitle {
+    font-size: 16px;
+  }
+{% endstylesheet %}
+
+<div class="sany">
+  {% for block in section.blocks %}
+    {% if block.settings.collection != blank %}
+      {% assign collection = block.settings.collection %}
+      <a
+        class="tile"
+        style="background-image: url({{ collection.image | image_url: width: 600 }});"
+        href="{{ collection.url }}"
+      >
+        <div class="overlay">
+          <h2>{{ collection.title }}</h2>
+          <p class="subtitle">{{ block.settings.subtitle }}</p>
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>

@@ -1,0 +1,463 @@
+{% schema %}
+{
+  "name": "Tabbed Collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "New Products"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Tabbed Collections",
+      "category" : "Custom",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+
+<div class="page-width">
+  <div class="tabbed-products__header">
+    <h2>New Products</h2>
+    <ul class="tabbed-products__tabs" role="tablist">
+      {% for block in section.blocks %}
+        <li class="tab-button{% if forloop.first %} active{% endif %}" data-tab="{{ block.id }}">
+          {{ block.settings.tab_title }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="tabbed-products__content">
+    {% for block in section.blocks %}
+      {% assign collection = block.settings.collection %}
+      {% if collection.products_count > 0 %}
+        <div class="tab-panel{% if forloop.first %} active{% endif %}" data-tab="{{ block.id }}">
+          <div class="product-grid">
+            {% for product in collection.products limit: 12 %}
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
+                  <div class="hover-actions">
+                    <button class="action-icon wishlist-btn" id="wishlist-btn" title="Add to Wishlist">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c0 0 0 0 -0.76 -1c-0.88 -1.16 -2.18 -2 -3.74 -2c-2.49 0 -4.5 2.01 -4.5 4.5c0 0.93 0.28 1.79 0.76 2.5c0.81 1.21 8.24 9 8.24 9M12 8c0 0 0 0 0.76 -1c0.88 -1.16 2.18 -2 3.74 -2c2.49 0 4.5 2.01 4.5 4.5c0 0.93 -0.28 1.79 -0.76 2.5c-0.81 1.21 -8.24 9 -8.24 9"/>
+                      </svg>
+                    </button>
+                    <button class="action-icon compare-btn" id="compare-btn" title="Add to Compare">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 2048 2048">
+                        <path fill="currentColor" d="M1817 1152h103v128h-22q-20 57-56 104t-85 81t-104 52t-117 19q-60 0-117-18t-105-52t-84-81t-56-105h-22v-128h103l187-560l-418-139v1213q169 11 317 75t272 179h179v128H128v-128h179q123-114 272-178t317-76V410L502 279l163 489h103v128h-22q-20 57-56 104t-85 81t-104 52t-117 19q-60 0-117-18t-105-52t-84-81t-56-105H0V768h103l187-560l-262-87L69 0l827 275V0h128v318l867 288l-41 122l-197-66zM606 896H162q35 60 94 94t128 34t128-34t94-94m-76-128L384 330L238 768zm430 1024q-118 0-231 32t-213 96h888q-99-63-213-95t-231-33m576-1078l-146 438h292zm222 566h-444q35 60 94 94t128 34t128-34t94-94"/>
+                      </svg>
+                    </button>
+                    <button
+                      class="action-icon quick-btn"
+                      id="quick-btn"
+                      title="Quick View"
+                      onclick="
+                        openQuickView({
+                          id: '{{ product.variants.first.id }}',
+                          image: '{{ product.featured_image | img_url: 'master' }}',
+                          title: '{{ product.title }}',
+                          price: '{{ product.price | money }}',
+                          description: '{{ product.description | escape }}'
+                        })
+                      "
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M10.5 2a8.5 8.5 0 1 0 5.262 15.176l3.652 3.652a1 1 0 0 0 1.414-1.414l-3.652-3.652A8.5 8.5 0 0 0 10.5 2M4 10.5a6.5 6.5 0 1 1 13 0a6.5 6.5 0 0 1-13 0"/></g>
+                      </svg>
+                    </button>
+
+                    <a href="{{ product.url }}" class="view-product-btn"
+                      >Add To Cart
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512">
+                        <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M80 176a16 16 0 0 0-16 16v216c0 30.24 25.76 56 56 56h272c30.24 0 56-24.51 56-54.75V192a16 16 0 0 0-16-16Zm80 0v-32a96 96 0 0 1 96-96h0a96 96 0 0 1 96 96v32"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="product-info">
+                  <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" data-auto-install="false">
+                    {{ product.metafields.judgeme.badge }}
+                  </div>
+                  <h3 class="product-title">{{ product.title }}</h3>
+                  <div class="product-price">
+                    {{ product.price | money }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Quick View Modal -->
+
+  <div class="quick-view-modal" id="quickViewModal">
+    <div class="quick-view-overlay" onclick="closeQuickView()"></div>
+    <div class="quick-view-content">
+      <button class="quick-view-close" onclick="closeQuickView()">×</button>
+      <div class="quick-view-body">
+        <div class="quick-view-image">
+          <img id="quickViewImage" src="" alt="Product Image">
+        </div>
+        <div class="quick-view-details">
+          <h2 id="quickViewTitle"></h2>
+          <p id="quickViewPrice"></p>
+          <hr style="width: 100%; opacity: 15%;">
+          <div class="quick-view-description" id="quickViewDescription">Loading description...</div>
+          <div class="quick-view-actions">
+            <div class="quantity-wrapper">
+              <button onclick="updateQty(-1)">-</button>
+              <input type="number" id="quickQty" value="1" min="1">
+              <button onclick="updateQty(1)">+</button>
+            </div>
+            <button class="add-to-cart-btn">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+        .page-width{
+          max-width:1768px;
+          margin: auto;
+        }
+
+        .tabbed-products {
+          padding: 40px 20px;
+        }
+        .tabbed-products__header h2 {
+          font-size: 30px;
+          margin-bottom: 40px;
+        }
+        .tabbed-products__tabs {
+          display: flex;
+          border-bottom: 1px solid #8A8A8A;
+          margin-bottom: 23px;
+          padding: 0px;
+        }
+        .tab-button {
+          cursor: pointer;
+          padding: 0px 25px 15px;
+          font-weight: 500;
+          list-style: none;
+          font-size: 15px;
+          color: #8A8A8A;
+        }
+        .tab-button.active {
+          border-bottom: 3px solid black;
+        }
+
+        .tabbed-products__content .tab-panel {
+          display: none;
+        }
+        .tabbed-products__content .tab-panel.active {
+          display: block;
+        }
+
+        .product-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 30px;
+        }
+
+        .product-card {
+          border-radius: 6px;
+          overflow: hidden;
+          background: #fafafa;
+          text-align: center;
+        }
+        .product-card .product-image {
+          width: 100%;
+          padding-top: 100%;
+          position: relative;
+        }
+        .product-card .product-image img {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+        }
+        .product-info {
+          padding-top: 20px;
+          background-color: white;
+        }
+        .product-title {
+          font-size: 15px;
+          color: black;
+          padding: 8px 0px;
+        }
+        .product-price {
+          color: #000;
+          font-size: 15px;
+          font-weight: 500;
+        }
+        .hover-actions {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .action-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: none;
+        background: white;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 0 4px rgba(0,0,0,0.1);
+      }
+
+      .wishlist-btn{
+        position: absolute;
+        bottom: 100px;
+        right: 5px;
+      }
+
+      .compare-btn{
+        position: absolute;
+        bottom: 55px;
+        right: 5px;
+      }
+
+      .quick-btn{
+        position: absolute;
+        bottom: 145px;
+        right: 5px;
+      }
+
+      .view-product-btn {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 18px;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: all 0.3s ease;
+        border-radius: 0 0 6px 6px;
+      }
+
+      .product-card:hover .hover-actions {
+        opacity: 1;
+      }
+
+      .product-card:hover .view-product-btn {
+        opacity: 1;
+        transform: translateY(0%);
+      }
+
+      .action-icon:hover {
+        color: white;
+      }
+
+      #wishlist-btn:hover {
+        background-color: black;
+      }
+
+      #compare-btn:hover {
+        background-color: black;
+      }
+
+      #quick-btn:hover {
+        background-color: black;
+      }
+
+      .quick-view-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+    }
+
+    .quick-view-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .quick-view-content {
+      position: relative;
+      max-width: 1000px;
+      width: 95%;
+      margin: 150px auto;
+      background: white;
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quick-view-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .quick-view-body {
+      display: flex;
+      flex-direction: row;
+      gap: 30px;
+    }
+
+    .quick-view-image {
+      flex: 1;
+    }
+
+    .quick-view-image img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .quick-view-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 80vh;
+      padding: 30px;
+      margin: 30px 0px;
+    }
+
+    .quick-view-details h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .quick-view-details p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .quick-view-description {
+      margin-top: 15px;
+      line-height: 1.6;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .quick-view-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .quantity-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .quantity-wrapper input {
+      width: 50px;
+      text-align: center;
+      border: none;
+    }
+
+    .quantity-wrapper button {
+      background: white;
+      color: black;
+      font-size: 24px;
+      font-weight: 500;
+      border: none;
+      width: 30px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .add-to-cart-btn {
+      background: black;
+      color: white;
+      padding: 10px 25px;
+      font-weight: 600;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans';
+    }
+
+    /* Hide arrows in number input for Chrome, Safari, Edge, Opera */
+  .quantity-wrapper input::-webkit-outer-spin-button,
+  .quantity-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Hide arrows in number input for Firefox */
+  .quantity-wrapper input[type="number"] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<script>
+      let quickViewVariantId = null;
+
+  function openQuickView(product) {
+    document.getElementById('quickViewImage').src = product.image;
+    document.getElementById('quickViewTitle').innerText = product.title;
+    document.getElementById('quickViewPrice').innerText = product.price;
+    document.getElementById('quickViewDescription').innerHTML = product.description || "No description available";
+
+    // Store variant ID for later use
+    quickViewVariantId = product.id;
+
+    document.getElementById('quickViewModal').style.display = 'block';
+  }
+
+
+    function closeQuickView() {
+      document.getElementById('quickViewModal').style.display = 'none';
+    }
+
+    function updateQty(val) {
+      const qtyInput = document.getElementById('quickQty');
+      let currentVal = parseInt(qtyInput.value, 10);
+      currentVal = isNaN(currentVal) ? 1 : currentVal + val;
+      qtyInput.value = Math.max(currentVal, 1);
+    }
+</script>

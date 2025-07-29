@@ -1,0 +1,108 @@
+{% schema %}
+{
+  "name": "Contact Hero Banner",
+  "tag": "section",
+  "class": "contact-hero-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Got Questions?"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We're here to help with orders, designs, shipping & more."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Hero Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+    .contact-hero-banner {
+      position: relative;
+      width: 100%;
+      color: #fff;
+      text-align: center;
+    }
+    .contact-hero-banner__image {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      padding: 370px 20px;
+    }
+    .contact-hero-banner__overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.4); /* dark overlay */
+    }
+    .contact-hero-banner__content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .contact-hero-banner__heading {
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .contact-hero-banner__subheading {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+  /* ================== RESPONSIVE =================== */
+
+  @media (max-width: 768px) {
+    .contact-hero-banner__image {
+      padding: 200px 16px;
+    }
+
+    .contact-hero-banner__heading {
+      font-size: 36px;
+    }
+
+    .contact-hero-banner__subheading {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-hero-banner__image {
+      padding: 150px 14px;
+    }
+
+    .contact-hero-banner__heading {
+      font-size: 28px;
+    }
+
+    .contact-hero-banner__subheading {
+      font-size: 14px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="contact-hero-banner__image"
+  style="background-image: url({{ section.settings.background_image | image_url: width: 2000 }});"
+>
+  <div class="contact-hero-banner__overlay"></div>
+  <div class="contact-hero-banner__content">
+    <h1 class="contact-hero-banner__heading">{{ section.settings.heading }}</h1>
+    <p class="contact-hero-banner__subheading">{{ section.settings.subheading }}</p>
+  </div>
+</div>

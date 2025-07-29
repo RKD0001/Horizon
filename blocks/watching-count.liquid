@@ -1,0 +1,75 @@
+<div class="watching-count" data-watching="{{ block.settings.initial_watching }}">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/>
+  </svg>
+  <span> {{ block.settings.initial_watching }} people are viewing this right now </span>
+</div>
+
+<style>
+  .watching-count { display: flex; align-items: center; gap: 5px; }
+
+  .watching-count span { color: #000000; font-weight: 500; }
+
+  .watching-count svg {
+    display: inline-flex;
+    animation: pulse 1.5s infinite;
+    font-size: 16px;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  function updateWatching() {
+    const element = document.querySelector('.watching-count');
+    let currentWatching = parseInt(element.getAttribute('data-watching'));
+    // Randomly increase or decrease by 1 to 5
+    const change = Math.floor(Math.random() * 5) + 1;
+    const isIncrease = Math.random() > 0.5; // 50% chance to increase or decrease
+    currentWatching = isIncrease ? currentWatching + change : currentWatching - change;
+    // Keep it between 10 and 100
+    currentWatching = Math.max(10, Math.min(100, currentWatching));
+    element.setAttribute('data-watching', currentWatching);
+    element.querySelector('span').textContent = currentWatching + '  people are viewing this right now';
+  }
+
+  // Update every 5 seconds
+  setInterval(updateWatching, 5000);
+
+  // Run once when page loads
+  updateWatching();
+</script>
+
+{% schema %}
+{
+  "name": "Watching Count",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "initial_watching",
+      "label": "Initial Watching Count",
+      "default": "38"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Watching Count",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

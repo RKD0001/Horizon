@@ -1,0 +1,87 @@
+{% schema %}
+{
+  "name": "Top Rated Products",
+  "tag": "aside",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Top Rated Products",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="top-rated-products" style="max-width: 1470px; margin: auto;">
+  <h3>Top rated products</h3>
+  <ul style="display: flex; justify-content: space-between; text-align: center;">
+    {% for block in section.blocks %}
+      {% assign product = all_products[block.settings.product] %}
+      {% if product %}
+        <li class="top-rated-item">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title }}">
+            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" data-auto-install="false">
+              {{ product.metafields.judgeme.badge }}
+            </div>
+            <p>{{ product.title }}</p>
+            <p>
+              {% if product.compare_at_price > product.price %}
+                <span class="old-price">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+              <span class="price">{{ product.price | money }}</span>
+            </p>
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+<style>
+  .top-rated-products {
+    border-top: 1px solid #eee;
+    padding: 15px;
+    margin-top: 20px;
+  }
+
+  .top-rated-products ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .top-rated-products li {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .top-rated-products img {
+    width: 200px;
+    height: auto;
+  }
+
+  .top-rated-products .old-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 5px;
+  }
+
+  .top-rated-products .price {
+    color: #e60023;
+  }
+</style>
