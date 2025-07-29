@@ -4372,3 +4372,7 @@ slideshow-slide .button-secondary{
 .lang-ar .onst-registration-form-container-box form.onst-show-labels .onst-field label{
   text-align: right !important;
 }
+
+h1, h2, h3{
+  color: red !important;
+}
